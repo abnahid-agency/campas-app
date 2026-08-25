@@ -22,11 +22,10 @@ export default function HomeScreen() {
     <View className="flex-1 bg-[#F8FAFC]">
       <StatusBar style="light" />
 
-       <View
+      <View
         pointerEvents="none"
         className="absolute left-0 right-0 top-0 h-[210px] bg-[#0B2A6B]"
       />
-
 
       {/* 1. Top Header */}
       <HomeHeader
@@ -50,7 +49,13 @@ export default function HomeScreen() {
 
           {/* 4. Quick Access 4x2 Grid */}
           <QuickAccessGrid
-            onItemPress={(id) => console.log(`Quick action: ${id}`)}
+            onItemPress={(item) => {
+              if (item.route) {
+                router.push(item.route as any);
+              } else {
+                console.log(`Quick action tapped: ${item.id}`);
+              }
+            }}
             onViewAllPress={() => console.log("View all quick access")}
           />
 

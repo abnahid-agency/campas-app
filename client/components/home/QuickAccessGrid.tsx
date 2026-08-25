@@ -1,74 +1,87 @@
 import {
   Bookmark,
-  Bus,
+  BookOpen,
+  Calendar,
   ChevronRight,
-  CreditCard,
-  GraduationCap,
+  FileText,
+  FlaskConical,
   LayoutGrid,
-  Mail,
   MapPin,
-  Navigation,
-  Utensils,
+  Search,
+  Users,
 } from "lucide-react-native";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
-const QUICK_ACCESS_ITEMS = [
+export interface QuickAccessItem {
+  id: string;
+  label: string;
+  icon: React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>;
+  iconColor: string;
+  bgColor: string;
+  borderColor: string;
+  route?: string;
+}
+
+export const QUICK_ACCESS_ITEMS: QuickAccessItem[] = [
   {
-    id: "portal",
-    label: "Portal",
-    icon: Navigation,
+    id: "notices",
+    label: "Notices",
+    icon: FileText,
     iconColor: "#0B2A6B",
     bgColor: "bg-blue-50",
     borderColor: "border-blue-100",
+    route: "/(root)/notices",
   },
   {
-    id: "lms",
-    label: "LMS",
-    icon: GraduationCap,
-    iconColor: "#E11D48",
-    bgColor: "bg-red-50",
-    borderColor: "border-red-100",
+    id: "community",
+    label: "Community",
+    icon: Users,
+    iconColor: "#4F46E5",
+    bgColor: "bg-indigo-50",
+    borderColor: "border-indigo-100",
+    route: "/(root)/community",
   },
   {
-    id: "email",
-    label: "Email",
-    icon: Mail,
-    iconColor: "#0284C7",
-    bgColor: "bg-sky-50",
-    borderColor: "border-sky-100",
+    id: "events",
+    label: "Events",
+    icon: Calendar,
+    iconColor: "#D97706",
+    bgColor: "bg-amber-50",
+    borderColor: "border-amber-100",
   },
   {
-    id: "cafeteria",
-    label: "Cafeteria",
-    icon: Utensils,
+    id: "qbank",
+    label: "Q. Bank",
+    icon: BookOpen,
+    iconColor: "#059669",
+    bgColor: "bg-emerald-50",
+    borderColor: "border-emerald-100",
+    route: "/(root)/qbank",
+  },
+  {
+    id: "maps",
+    label: "Campus Map",
+    icon: MapPin,
     iconColor: "#0D9488",
     bgColor: "bg-teal-50",
     borderColor: "border-teal-100",
   },
   {
-    id: "id_card",
-    label: "ID Card",
-    icon: CreditCard,
-    iconColor: "#2563EB",
-    bgColor: "bg-indigo-50",
-    borderColor: "border-indigo-100",
+    id: "lost_found",
+    label: "Lost & Found",
+    icon: Search,
+    iconColor: "#7C3AED",
+    bgColor: "bg-purple-50",
+    borderColor: "border-purple-100",
   },
   {
-    id: "maps",
-    label: "Map",
-    icon: MapPin,
-    iconColor: "#16A34A",
-    bgColor: "bg-emerald-50",
-    borderColor: "border-emerald-100",
-  },
-  {
-    id: "transport",
-    label: "Transport",
-    icon: Bus,
-    iconColor: "#0891B2",
-    bgColor: "bg-cyan-50",
-    borderColor: "border-cyan-100",
+    id: "labs",
+    label: "Labs",
+    icon: FlaskConical,
+    iconColor: "#E11D48",
+    bgColor: "bg-rose-50",
+    borderColor: "border-rose-100",
   },
   {
     id: "more",
@@ -81,7 +94,7 @@ const QUICK_ACCESS_ITEMS = [
 ];
 
 interface QuickAccessGridProps {
-  onItemPress?: (id: string) => void;
+  onItemPress?: (item: QuickAccessItem) => void;
   onViewAllPress?: () => void;
 }
 
@@ -89,6 +102,7 @@ interface QuickAccessGridProps {
  * QuickAccessGrid
  *
  * 4x2 grid of campus quick-action tiles for North East University Bangladesh.
+ * Includes: Notice Board, Community, Events, Question Bank, Campus Map, Lost & Found, Labs, and More.
  */
 export function QuickAccessGrid({
   onItemPress,
@@ -117,14 +131,14 @@ export function QuickAccessGrid({
         </Pressable>
       </View>
 
-      {/* Grid */}
+      {/* 4x2 Grid */}
       <View className="flex-row flex-wrap justify-between gap-y-3.5">
         {QUICK_ACCESS_ITEMS.map((item) => {
           const IconComponent = item.icon;
           return (
             <Pressable
               key={item.id}
-              onPress={() => onItemPress?.(item.id)}
+              onPress={() => onItemPress?.(item)}
               className="w-[22%] items-center active:opacity-75"
             >
               {/* Rounded App Icon Box */}
@@ -132,9 +146,9 @@ export function QuickAccessGrid({
                 className={`h-14 w-14 items-center justify-center rounded-2xl border ${item.bgColor} ${item.borderColor} shadow-sm`}
               >
                 <IconComponent
-                  size={24}
+                  size={23}
                   color={item.iconColor}
-                  strokeWidth={2}
+                  strokeWidth={2.1}
                 />
               </View>
 
